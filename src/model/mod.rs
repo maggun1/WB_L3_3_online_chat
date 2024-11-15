@@ -1,17 +1,17 @@
-struct User {
-    user_id: i32,
-    username: String,
+#[derive(Clone, serde::Serialize, serde::Deserialize, Debug)]
+pub struct User {
+    pub username: String,
 }
 
-struct Message {
-    message_id: i32,
-    user_id: i32,
-    content: String,
-    created_at: chrono::DateTime<chrono::Utc>,
+#[derive(Clone, serde::Serialize, serde::Deserialize, Debug)]
+pub struct Message {
+    pub username: String,
+    pub content: String,
+    pub timestamp: u64,
 }
 
-struct Room {
-    room_id: i32,
-    name: String,
-
+#[derive(Debug)]
+pub struct Room {
+    pub users: dashmap::DashMap<String, User>,
+    pub messages: tokio::sync::RwLock<Vec<Message>>,
 }
